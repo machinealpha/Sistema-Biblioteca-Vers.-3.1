@@ -6,7 +6,7 @@ from django.shortcuts import render,redirect
 
 # Create your views here.
 def home(request):
-    return HttpResponse("PRUEBA HTTP SISTEMA DE BIBLIOTECA")
+    return render(request,"index.html",context={})
 
 def reservaciones(request):
     return HttpResponse("SOLICITUD EJEMPLARES")
