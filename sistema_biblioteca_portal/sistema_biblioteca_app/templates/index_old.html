@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .my_label {
+            color:blue; 
+            display:block;
+            font-size: 20px;
+
+        }
+        .my_secondary_label {
+            color:green; 
+            display:block;
+            font-size: 20px;
+
+        }
+    </style>
+    <meta charset="utf-8">
+    <tittle>SISTEMA DE BIBLIOTECA</tittle>
+</head>
+<body>
+<table>
+    <tbody>
+        <tr>
+            <td><label class="my_label">Nombre Usuario</label></td>
+            <td> <input type="text" name="nombre_usuario"></td>
+        </tr>
+        <tr>
+            <td><label class="my_label">Numero RUT</label></td>
+            <td><input type="text" name="nombre_usuario"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit" style="display:block;margin-top: 15px;margin-bottom: 15px;font: size 20px;width: 100%; color: whithe;">Enviar</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<h1>Bienvenido al Sistema de Biblioteca Escolar</h1>
+<form method="post" action="/save">
+    {% csrf_token %}
+    
+   
+
+    
+    
+    
+</form>
+<a href="/reservas">Reservaciones</a>
+<body>
+</html>

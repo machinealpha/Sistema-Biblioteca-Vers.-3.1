@@ -20,4 +20,5 @@ from .views import *
 urlpatterns = [
     path('home', home),
     path('reservas', reservaciones),
+    path('save', save_usuario),
 ]

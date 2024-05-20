@@ -10,3 +10,7 @@ def home(request):
 
 def reservaciones(request):
     return HttpResponse("SOLICITUD EJEMPLARES")
+
+def save_usuario(request):
+    nombre_usuario = request.POST['nombre_usuario']
+    return render(request,"welcome.html",context={'nombre_usuario':nombre_usuario})
