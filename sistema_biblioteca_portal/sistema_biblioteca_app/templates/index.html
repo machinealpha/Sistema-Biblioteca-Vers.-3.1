@@ -16,9 +16,51 @@
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid justify-content-center align-items-center" style="background-color: #00578E;">
         <span class="navbar-brand lb-1 h3 text-light">
-          <img src="{% static '/logo_1_biblioteca.png' %}" alt="logo_1_biblioteca" height="45"> 
+          <img src="{% static '/logo_2_biblioteca.png' %}" alt="logo_2_biblioteca" height="45"> 
           BIBLIOTECA ESCOLAR</span>
       </div>
     </nav>
-</body>
+    <div class="d-flex justify-content-center align-items-center">
+      <ul class="nav nav-underline">
+        <li class="nav-item">
+          {% if current_tab == 'home' %}
+            <a class="nav-link active" aria-current="page" href="/home">HOME</a>
+          {% else %}
+            <a class="nav-link" aria-current="page" href="/home">HOME</a>
+          {% endif %}
+      </li>
+      <li class="nav-item">
+        {% if current_tab == 'lectores' %}
+          <a class="nav-link active" aria-current="page" href="/lectores">LECTORES</a>
+      {% else %}
+          <a class="nav-link" aria-current="page" href="/lectores">LECTORES</a>
+      {% endif %}
+      </li>
+      <li class="nav-item">
+        {% if current_tab == 'mochila' %}
+          <a class="nav-link active" aria-current="page" href="/mochila">MOCHILA</a>
+      {% else %}
+          <a class="nav-link" aria-current="page" href="/mochila">MOCHILA</a>
+      {% endif %}
+    </li>
+    <li class="nav-item">
+      {% if current_tab == 'libros' %}
+        <a class="nav-link active" aria-current="page" href="/libros">LIBROS</a>
+    {% else %}
+        <a class="nav-link" aria-current="page" href="/libros">LIBROS</a>
+    {% endif %}
+    </li>
+      <li class="nav-item">
+        {% if current_tab == 'devoluciones' %}
+          <a class="nav-link active" aria-current="page" href="/devoluciones">DEVOLUCIONES</a>
+      {% else %}
+          <a class="nav-link" aria-current="page" href="/devoluciones">DEVOLUCIONES</a>
+      {% endif %}
+      </li>
+    </ul>
+  </div>
+    </nav>
+    {% block main_content %}
+    {% endblock %}
+  </body>
 </html>

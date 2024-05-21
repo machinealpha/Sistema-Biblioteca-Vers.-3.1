@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from .views import *
 urlpatterns = [
+    path('', home),
     path('home', home),
-    path('reservas', reservaciones),
+    path('lectores', lectores),
     path('save', save_usuario),
 ]

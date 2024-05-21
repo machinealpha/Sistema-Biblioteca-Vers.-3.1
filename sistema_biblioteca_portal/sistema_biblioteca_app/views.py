@@ -6,7 +6,10 @@ from django.shortcuts import render,redirect
 
 # Create your views here.
 def home(request):
-    return render(request,"index.html",context={})
+    return render(request,"home.html",context={"current_tab":"home"})
+
+def lectores(request):
+    return render(request,"lectores.html",context={"current_tab":"lectores"})
 
 def reservaciones(request):
     return HttpResponse("SOLICITUD EJEMPLARES")
