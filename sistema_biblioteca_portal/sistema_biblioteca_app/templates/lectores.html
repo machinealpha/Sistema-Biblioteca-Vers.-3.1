@@ -4,6 +4,31 @@
 
 {% block main_content %}
 
-<h1>Pagina de Lectores</h1>
+<!--<h1>Pagina de Lectores</h1>-->
+<div class="container-flex text-center justify-content-center align-items-center" style="padding-top: 10px; padding-bottom: 20px; margin-top: 10px;veetical-align:middle;">
+<div class="row justify-content-center align-middle" style="margin-top: 10px;height:60px;">
+    <div class="col-md-4 text-light" style="background-color:#f85b00 ;>
+        <h4 style="margin-top:15px" >registrar nuevo lector</h4>
+    </div>
+    <div class="col-md-8"
+        <h4>Buscar lectores</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="container" style="overflow-y: auto; height: 600px;background: #939494;">
+            <form class="d-flex" action="#" method="POST">
+                {% csrf_token %}
+                <table class="table">
+                    <tr>
+                        <td>Name : </td>
+                    </tr>
+
+                </table>
+            </form>
+    </div>
+</div>
+
+</div>
 
 {% endblock %}
