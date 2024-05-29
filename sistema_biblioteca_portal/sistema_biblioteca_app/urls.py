@@ -16,10 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import *
+from .views import home, save_usuario, save_lector, lectores_tab, reservaciones  # Importamos todas las vistas necesarias
+
 urlpatterns = [
     path('', home),
     path('home', home),
-    path('lectores', lectores),
+    path('lectores', lectores_tab, name='lectores'),  # Redirigimos a lectores_tab
     path('save', save_usuario),
+    path('lectores/add', save_lector, name='save_lector'),
+    path('reservaciones', reservaciones),  # Asegúrate de tener la vista reservaciones definida
 ]

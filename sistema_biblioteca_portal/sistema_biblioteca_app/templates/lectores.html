@@ -4,54 +4,96 @@
 
 {% block main_content %}
 
-<!--<h1>Pagina de Lectores</h1>-->
-<div class="container-flex text-center justify-content-center align-items-center" style="padding-top: 10px; padding-bottom: 20px; margin-top: 10px;veetical-align:middle;">
-<div class="row justify-content-center align-middle" style="margin-top: 10px;height:60px;">
-    <div class="col-md-4 text-light" style="background-color:#f85b00 ;>
-        <h4 style="margin-top:15px" >registrar nuevo lector</h4>
+<div class="container-flex text-center justify-content-center align-items-center" style="padding-top: 10px; padding-bottom: 20px; margin-top: 10px;">
+    <div class="row justify-content-center align-middle" style="margin-top: 10px;height:60px;">
+        <div class="col-md-4 text-light" style="background-color:#f85b00;">
+            <h4 style="margin-top:15px">REGISTRAR NUEVO LECTOR</h4>
+        </div>
+        <div class="col-md-8">
+            <h4>Buscar lectores</h4>
+        </div>
     </div>
-    <div class="col-md-8"
-        <h4>Buscar lectores</h4>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="container" style="overflow-y: auto; height: 600px;background: #bbbdbd;">
+                <form class="d-flex" action="{% url 'save_lector' %}" method="POST">  
+                    {% csrf_token %}
+                    <table class="table" style="margin-top: 20px;">
+                        <tr>
+                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Matricula : </td>
+                            <td><input type="text" class="form-control" name="matricula"></td> 
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Lector : </td>
+                            <td><input type="text" class="form-control" name="lector"></td> 
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Curso : </td>
+                            <td><input type="text" class="form-control" name="curso"></td> 
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Observaciones : </td>
+                            <td><textarea class="form-control" name="observaciones"></textarea></td> 
+                        </tr>
+
+                        <tr>
+                            <td colspan="2"><button class="btn btn-primary" type="submit">Guardar</button></td>
+                        </tr>
+                    </table>
+                </form>
+                <ul style="text-align: left;vertical-align:middle; padding-left: 15px ;">
+                    <li><small>Los lectores no se deben registrar multiples veces</small></li>
+                    <li><small>Los lectores duplicados seran desactivados</small></li>
+                    <li><small>La información ingresada debe ser correcta</small></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <nav class="navbar bg-body-light">
+                    <div class="container-fluid justify-content-center align-items-center">
+                        <form class="d-flex" role="search" method="GET" action="{% url 'lectores' %}">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" value="{{ query }}">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <p>{{ lectores|length }} lectores suscritos.</p> 
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <div class="container" style="overflow-y:auto;height: 400px;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>Matricula</td>
+                                <td>Lector</td>
+                                <td>Curso</td>
+                                <td>Observaciones</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lector in lectores %} 
+                                <tr>
+                                    <td>{{ lector.matricula }}</td> 
+                                    <td>
+                                        {% if lector.active %}
+                                            <span class="btn btn-success">{{ lector.lector }}</span> 
+                                        {% else %}
+                                            <span class="btn btn-secondary">{{ lector.lector }}</span> 
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ lector.curso }}</td>
+                                    <td>{{ lector.observaciones }}</td>
+                                </tr>
+                            {% endfor %} 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="container" style="overflow-y: auto; height: 600px;background: #bbbdbd;">
-            <form class="d-flex" action="#" method="POST">
-                {% csrf_token %}
-                <table class="table" style="margin-top: 20px;">
-                    <tr>
-                        <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Matricula : </td>
-                        <td><input type="text" class="form-control" Nombre="Matricula"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Lector : </td>
-                        <td><input type="text" class="form-control" Nombre="lector"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Curso : </td>
-                        <td><input type="text" class="form-control" Nombre="Curso"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Observaciones : </td>
-                        <td><textarea class="form-control" Nombre="Observaciones"></textarea></td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2"><button class="btn btn-primary" type= "submit">Guardar</button></td>
-                    </tr>
-
-
-                </table>
-            </form>
-            <ul style="text-align: left;vertical-align:middle; padding-left: 15px ;">
-                <li><small>Los lectores no se deben registrar multiples veces</small></li>
-                <li><small>Los lectores duplicados seran desactivados</small></li>
-                <li><small>La información ingresada debe ser correcta</small></li>
-            </ul>
-    </div>
-</div>
-
 </div>
 
 {% endblock %}
