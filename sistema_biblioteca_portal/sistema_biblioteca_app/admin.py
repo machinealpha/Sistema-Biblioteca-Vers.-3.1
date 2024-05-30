@@ -4,3 +4,4 @@ from .models import Lectores
 
 # Register your models here.
 admin.site.register(Lectores)
+admin.site.register(Libro)

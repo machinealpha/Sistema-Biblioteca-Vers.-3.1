@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from sistema_biblioteca_app.views import home, save_usuario, save_lector, lectores_tab, reservaciones, libros_disponibles 
+
 
 urlpatterns = [
     path('', include('sistema_biblioteca_app.urls')),

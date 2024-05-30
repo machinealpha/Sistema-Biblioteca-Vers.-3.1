@@ -7,6 +7,7 @@ from django.shortcuts import render,redirect
 # Create your views here.
 
 from .models import Lectores
+from .models import Libro
 from django.db.models import Q  # Importar Q
 
 def home(request):
@@ -39,3 +40,18 @@ def save_lector(request):
     )
     lector_item.save()
     return redirect('lectores')
+
+def libros_disponibles(request):
+    query = request.GET.get('query', '')
+    libros = Libro.objects.filter(cantidad_disponible__gt=0)
+
+    if query:
+        libros = libros.filter(
+            Q(titulo__icontains=query) | Q(autor__icontains=query) | Q(genero__icontains=query)
+        )
+
+    return render(request, 'libros.html', {
+        'libros': libros,
+        'query': query,
+        'current_tab': 'libros'
+    })
