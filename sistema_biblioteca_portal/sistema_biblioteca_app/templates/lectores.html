@@ -24,9 +24,7 @@
                             <td><input type="text" class="form-control" name="matricula"></td> 
                         </tr>
                         <tr>
-                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Lector : </td>
-                            <td><input type="text" class="form-control" name="lector"></td> 
-                        </tr>
+                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Nombre : </td>  <td><input type="text" class="form-control" name="nombre"></td> </tr>
                         <tr>
                             <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Curso : </td>
                             <td><input type="text" class="form-control" name="curso"></td> 
@@ -48,6 +46,7 @@
                 </ul>
             </div>
         </div>
+
         <div class="col-md-8">
             <div class="row">
                 <nav class="navbar bg-body-light">
@@ -78,10 +77,10 @@
                                 <tr>
                                     <td>{{ lector.matricula }}</td> 
                                     <td>
-                                        {% if lector.active %}
-                                            <span class="btn btn-success">{{ lector.lector }}</span> 
+                                        {% if lector.activo %}
+                                            <span class="btn btn-success">{{ lector.nombre }}</span> 
                                         {% else %}
-                                            <span class="btn btn-secondary">{{ lector.lector }}</span> 
+                                            <span class="btn btn-secondary">{{ lector.nombre }}</span> 
                                         {% endif %}
                                     </td>
                                     <td>{{ lector.curso }}</td>
@@ -92,7 +91,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
 
