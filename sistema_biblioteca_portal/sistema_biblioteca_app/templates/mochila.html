@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+
+{% block main_content %}
+<h2>Mochila</h2>
+
+{% if user.is_authenticated %}
+    {% if user.prestamos.all %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Fecha de Préstamo</th>
+                    <th>Fecha de Devolución</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prestamo in user.prestamos.all %}
+                    <tr>
+                        <td>{{ prestamo.libro.titulo }}</td>
+                        <td>{{ prestamo.libro.autor }}</td>
+                        <td>{{ prestamo.fecha_prestamo }}</td>
+                        <td>{{ prestamo.fecha_devolucion }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes libros en préstamo actualmente.</p>
+    {% endif %}
+{% else %}
+    <p>Por favor, inicia sesión para ver tus libros en préstamo.</p>
+{% endif %}
+{% endblock %}

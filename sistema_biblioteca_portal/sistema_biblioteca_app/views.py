@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from .models import Lector
 from .models import Libro
 from django.db.models import Q  # Importar Q
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request,"home.html",context={"current_tab":"home"})
@@ -77,3 +78,34 @@ def prestamo_libro(request, libro_id):
             return render(request, 'libros.html', {'libros': Libro.objects.all(), 'error': 'Libro no disponible'})
     else:
         return render(request, 'prestamo_libro.html', {'libro': libro})
+    
+@login_required
+def mochila(request):
+    if hasattr(request.user, 'lector'):  # Check if user is Lector
+        prestamos = Prestamo.objects.filter(lector=request.user.lector, devuelto=False)
+        return render(request, 'mochila.html', {'prestamos': prestamos})
+    else:
+        return render(request, 'mochila.html', {'error': 'Solo los lectores pueden ver la mochila.'})
+    
+def devoluciones(request):
+    if request.method == 'POST':
+        prestamo_id = request.POST['prestamo_id']
+        try:
+            prestamo = Prestamo.objects.get(pk=prestamo_id)
+            prestamo.devuelto = True
+            prestamo.fecha_devolucion = datetime.now()
+            prestamo.save()
+
+            # Aumentar la cantidad disponible del libro
+            prestamo.libro.cantidad_disponible += 1
+            prestamo.libro.save()
+
+            # Opcional: agregar un mensaje de éxito
+            messages.success(request, 'Devolución registrada exitosamente.')
+        except Prestamo.DoesNotExist:
+            # Opcional: agregar un mensaje de error
+            messages.error(request, 'No se encontró el préstamo con el ID proporcionado.')
+
+    # Obtener todos los préstamos no devueltos para mostrarlos en la plantilla
+    prestamos_no_devueltos = Prestamo.objects.filter(devuelto=False)
+    return render(request, 'devoluciones.html', {'prestamos_no_devueltos': prestamos_no_devueltos})

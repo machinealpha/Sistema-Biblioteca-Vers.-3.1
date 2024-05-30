@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+
+{% block main_content %}
+<h2>Devoluciones</h2>
+
+{% if user.is_staff %} <form method="POST">
+    {% csrf_token %}
+    <label for="prestamo_id">ID del Préstamo:</label>
+    <input type="text" id="prestamo_id" name="prestamo_id">
+    <button type="submit">Registrar Devolución</button>
+</form>
+{% else %}
+    <p>Esta sección es para el personal de la biblioteca.</p>
+{% endif %}
+{% endblock %}
