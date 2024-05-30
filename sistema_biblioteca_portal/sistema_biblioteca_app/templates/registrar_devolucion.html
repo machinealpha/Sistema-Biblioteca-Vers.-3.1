@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+
+{% block main_content %}
+<h2>Registrar Devolución</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="prestamo_id">ID del Préstamo:</label>
+    <select name="prestamo_id" id="prestamo_id">
+        {% for prestamo in prestamos %}
+            <option value="{{ prestamo.id }}">{{ prestamo }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Registrar Devolución</button>
+</form>
+{% endblock %}

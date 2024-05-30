@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block main_content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            {% if libro.imagen %}
+                <img src="{{ libro.imagen.url }}" class="img-fluid" alt="Portada de {{ libro.titulo }}">
+            {% else %}
+                <img src="{% static 'images/no-cover.png' %}" class="img-fluid" alt="Sin portada"> 
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h2>{{ libro.titulo }}</h2>
+            <p><strong>Autor:</strong> {{ libro.autor }}</p>
+            <p><strong>ISBN:</strong> {{ libro.isbn }}</p>
+            <p><strong>Editorial:</strong> {{ libro.editorial }}</p>
+            <p><strong>Año de Publicación:</strong> {{ libro.año_publicacion }}</p>
+            <p><strong>Género:</strong> {{ libro.genero }}</p>
+            <p><strong>Disponibles:</strong> {{ libro.cantidad_disponible }}</p>
+
+            {% if libro.cantidad_disponible > 0 %}
+                <a href="{% url 'prestamo_libro' libro.id %}" class="btn btn-primary">Solicitar Préstamo</a>
+            {% else %}
+                <p class="text-danger">No disponible</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

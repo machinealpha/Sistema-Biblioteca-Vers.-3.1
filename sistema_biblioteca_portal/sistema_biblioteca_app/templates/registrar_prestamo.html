@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block main_content %}
+<h2>Registrar Préstamo</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="lector_id">Lector:</label>
+    <select name="lector_id" id="lector_id">
+        {% for lector in lectores %}
+            <option value="{{ lector.id }}">{{ lector }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="libro_id">Libro:</label>
+    <select name="libro_id" id="libro_id">
+        {% for libro in libros %}
+            <option value="{{ libro.id }}">{{ libro }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Registrar Préstamo</button>
+</form>
+{% endblock %}

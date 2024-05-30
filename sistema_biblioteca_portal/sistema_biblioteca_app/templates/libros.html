@@ -37,6 +37,7 @@
                                 <th>Autor</th>
                                 <th>Género</th>
                                 <th>Disponibles</th>
+                                <th>Acciones</th>  
                             </tr>
                         </thead>
                         <tbody>
@@ -49,10 +50,13 @@
                                             <p>Sin portada</p>
                                         {% endif %}
                                     </td>
-                                    <td>{{ libro.titulo }}</td>
+                                    <td><a href="{% url 'detalle_libro' libro.id %}">{{ libro.titulo }}</a></td>  
                                     <td>{{ libro.autor }}</td>
                                     <td>{{ libro.genero }}</td>
                                     <td>{{ libro.cantidad_disponible }}</td>
+                                    <td>
+                                        <a href="{% url 'prestamo_libro' libro.id %}" class="btn btn-primary btn-sm">Solicitar Préstamo</a>
+                                    </td> 
                                 </tr>
                             {% endfor %}
                         </tbody>
