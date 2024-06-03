@@ -1,0 +1,14 @@
+{% extends "index.html" %} {% load static %}
+
+{% block main_content %}
+
+<div class="container mt-4">
+    <h2>Confirmación de Préstamo</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Confirmar Préstamo</button>
+    </form>
+</div>
+{% endblock %}

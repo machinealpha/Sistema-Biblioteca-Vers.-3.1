@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Lector(models.Model):  # Cambiamos el nombre a "Lector" (singular)
     matricula = models.CharField(max_length=200, unique=True)  # Matrícula única
@@ -24,7 +25,7 @@ class Libro(models.Model):
         return self.titulo
 
 class Prestamo(models.Model):  # Nuevo modelo para registrar préstamos
-    lector = models.ForeignKey(Lector, on_delete=models.CASCADE)
+    lector = models.ForeignKey(User, on_delete=models.CASCADE)
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     fecha_prestamo = models.DateField(auto_now_add=True)
     fecha_devolucion = models.DateField()

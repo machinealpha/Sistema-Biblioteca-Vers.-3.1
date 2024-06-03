@@ -14,6 +14,11 @@ from django.db.models import Q  # Importar Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from .forms import UserRegistrationForm
+from django.contrib.auth import views as auth_views
+from django.views.generic.edit import FormView
+from .forms import ConfirmacionPrestamoForm
+
 
 
 def home(request):
@@ -48,20 +53,20 @@ def save_lector(request):
     return redirect('lectores')  # Redirigir a la lista de lectores
 
 def libros_disponibles(request):
-    query_titulo = request.GET.get('titulo', '')
-    query_autor = request.GET.get('autor', '')
-    query_genero = request.GET.get('genero', '')
+    titulo = request.GET.get('titulo', '')  # Obtén el valor del campo 'titulo'
+    autor = request.GET.get('autor', '')    # Obtén el valor del campo 'autor'
+    genero = request.GET.get('genero', '')  # Obtén el valor del campo 'genero'
 
     libros = Libro.objects.filter(cantidad_disponible__gt=0)
 
-    if query_titulo:
-        libros = libros.filter(titulo__icontains=query_titulo)
-    if query_autor:
-        libros = libros.filter(autor__icontains=query_autor)
-    if query_genero:
-        libros = libros.filter(genero__icontains=query_genero)
+    if titulo:
+        libros = libros.filter(titulo__icontains=titulo)
+    if autor:
+        libros = libros.filter(autor__icontains=autor)
+    if genero:
+        libros = libros.filter(genero__icontains=genero)
 
-    return render(request, 'libros.html', {'libros': libros})
+    return render(request, 'libros.html', {'libros': libros, 'titulo': titulo, 'autor': autor, 'genero': genero})
 
 def prestamo_libro(request, libro_id):
     libro = get_object_or_404(Libro, pk=libro_id)
@@ -71,14 +76,14 @@ def prestamo_libro(request, libro_id):
         if libro.cantidad_disponible > 0:  # <-- If statement starts here
             prestamo = Prestamo(
                 libro=libro,
-                usuario=usuario,
+                lector=request.user,
                 fecha_prestamo=datetime.now(),
                 fecha_devolucion=datetime.now() + timedelta(days=7)
             )
             prestamo.save()
             libro.cantidad_disponible -= 1
             libro.save()
-            return redirect('confirmacion_prestamo') 
+            return redirect('confirmacion_prestamo', libro_id=libro_id)  # Pasa el libro_id a la redirección
         else:
             return render(request, 'libros.html', {'libros': Libro.objects.all(), 'error': 'Libro no disponible'})
     else:
@@ -166,3 +171,51 @@ def registrar_devolucion(request):
 def detalle_libro(request, libro_id):
     libro = get_object_or_404(Libro, pk=libro_id)
     return render(request, 'detalle_libro.html', {'libro': libro})
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'¡Tu cuenta ha sido creada! Ahora puedes iniciar sesión.')
+            return redirect('login')  # Redirige al inicio de sesión después de registrarse
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'register.html', {'form': form})
+
+def login_view(request):
+    return auth_views.LoginView.as_view(template_name='login.html')(request)
+
+
+class ConfirmacionPrestamoView(FormView):
+    template_name = 'confirmacion_prestamo.html'
+    form_class = ConfirmacionPrestamoForm
+    success_url = '/libros/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        libro_id = self.kwargs['libro_id']  # Obtén el libro_id de los kwargs
+        context['libro'] = get_object_or_404(Libro, pk=libro_id)
+        return context
+
+    def form_valid(self, form):
+        libro_id = self.kwargs['libro_id']
+        libro = get_object_or_404(Libro, pk=libro_id)
+
+        if libro.cantidad_disponible > 0:
+            prestamo = Prestamo(
+                libro=libro,
+                lector=self.request.user,
+                fecha_prestamo=datetime.now(),
+                fecha_devolucion=datetime.now() + timedelta(days=14)
+            )
+            prestamo.save()
+            libro.cantidad_disponible -= 1
+            libro.save()
+
+            messages.success(self.request, 'Préstamo registrado exitosamente.')
+        else:
+            messages.error(self.request, 'El libro ya no está disponible.')
+
+        return super().form_valid(form)

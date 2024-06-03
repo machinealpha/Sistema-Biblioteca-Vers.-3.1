@@ -1,70 +1,58 @@
 <!doctype html>
-{% extends "index.html" %} {% load static %}
+{% extends "index.html" %}
+{% load static %}
 
 {% block main_content %}
 
-<div class="container-flex text-center justify-content-center align-items-center" style="padding-top: 10px; padding-bottom: 20px; margin-top: 10px;">
-    <div class="row justify-content-center align-middle" style="margin-top: 10px;height:60px;">
-        <div class="col-md-12 text-light" style="background-color:#f85b00;">
-            <h4 style="margin-top:15px">LIBROS DISPONIBLES</h4>
-        </div>
-    </div>
+<div class="container mt-4">  
+    <h2>Libros Disponibles</h2>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <nav class="navbar bg-body-light">
-                    <div class="container-fluid justify-content-center align-items-center">
-                        <form class="d-flex" role="search" method="GET" action="{% url 'libros' %}">
-                            <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search" name="query" value="{{ query }}">
-                            <button class="btn btn-outline-success" type="submit">Buscar</button>
-                        </form>
-                    </div>
-                </nav>
-            </div>
+    <form class="d-flex mb-3" role="search" method="GET" action="{% url 'libros' %}">
+        <input class="form-control me-2" type="search" placeholder="Título" aria-label="Título" name="titulo" value="{{ titulo }}">
+        <input class="form-control me-2" type="search" placeholder="Autor" aria-label="Autor" name="autor" value="{{ autor }}">
+        <input class="form-control me-2" type="search" placeholder="Género" aria-label="Género" name="genero" value="{{ genero }}">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+    </form>
 
-            {% if query %}
-                <p>Resultados de la búsqueda para: {{ query }}</p>
-            {% endif %}
+    {% if query %}
+        <p>Resultados de la búsqueda para: {{ query }}</p>
+    {% endif %}
 
-            <div class="row" style="margin-top: 20px;">
-                <div class="container" style="overflow-y:auto;height: 400px;">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Portada</th>
-                                <th>Título</th>
-                                <th>Autor</th>
-                                <th>Género</th>
-                                <th>Disponibles</th>
-                                <th>Acciones</th>  
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for libro in libros %}
-                                <tr>
-                                    <td>
-                                        {% if libro.imagen %}
-                                            <img src="{{ libro.imagen.url }}" alt="Portada de {{ libro.titulo }}" width="50">
-                                        {% else %}
-                                            <p>Sin portada</p>
-                                        {% endif %}
-                                    </td>
-                                    <td><a href="{% url 'detalle_libro' libro.id %}">{{ libro.titulo }}</a></td>  
-                                    <td>{{ libro.autor }}</td>
-                                    <td>{{ libro.genero }}</td>
-                                    <td>{{ libro.cantidad_disponible }}</td>
-                                    <td>
-                                        <a href="{% url 'prestamo_libro' libro.id %}" class="btn btn-primary btn-sm">Solicitar Préstamo</a>
-                                    </td> 
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Portada</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Género</th>
+                <th>Disponibles</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for libro in libros %}
+                <tr>
+                    <td>
+                        {% if libro.imagen %}
+                            <img src="{{ libro.imagen.url }}" class="img-thumbnail" alt="Portada de {{ libro.titulo }}" style="max-width: 50px;"> 
+                        {% else %}
+                            <p>Sin portada</p>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'detalle_libro' libro.id %}">{{ libro.titulo }}</a></td>
+                    <td>{{ libro.autor }}</td>
+                    <td>{{ libro.genero }}</td>
+                    <td>{{ libro.cantidad_disponible }}</td>
+                    <td>
+                        {% if libro.cantidad_disponible > 0 %}
+                            <a href="{% url 'prestamo_libro' libro.id %}" class="btn btn-primary btn-sm">Solicitar Préstamo</a>
+                        {% else %}
+                            <p class="text-danger">No disponible</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-
 {% endblock %}
