@@ -3,39 +3,42 @@
 {% load static %}
 
 {% block main_content %}
-<main role>"" 
-<div class="jumbotron">
+
+<main role="">
+    <div class="jumbotron">
+        <div class="container">
+            <img src="{% static '/logo_3_biblioteca.png' %}" class="rounded float-start" alt="logo_3_biblioteca" height="200" style="margin-right: 20px;">
+            <h1 class="display-4">Bienvenido!</h1>
+            <p>Tenemos varios ejemplares disponibles, solicita el tuyo.</p>
+            <p><a role="button" href="{% url 'libros' %}" class="btn btn-warning btn-lg">Revisa el catálogo de libros &raquo;</a></p> 
+        </div>
+    </div>
+
     <div class="container">
-        <img src="{% static '/logo_3_biblioteca.png' %}" class="rounded float-start" alt="logo_3_biblioteca" height="200" style="margin: right 20px;"> 
-        <h1 class="display-4">Bienvenido!</h1>
-        <p>Tenemos varios ejemplares disponibles, solicita el tuyo.</p>
-        <p><a role="button" href="#" class="btn btn-warning btn-lg">Revisa el catálogo de libros>></a></p>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-      <div class="col">
-        <h2>Hábitos de lectura</h2>
-            <p>El hábito de la lectura se refiere a la práctica regular y sistemática de leer libros u otros tipos de textos escritos como parte de la rutina diaria o semanal de un estudiante.</p>
-      </div>
-      <div class="col">
-        <h2>Ambiente para leer.</h2>
-            <p>El hábito de la lectura se refiere a la práctica regular y sistemática de leer libros u otros tipos de textos escritos como parte de la rutina diaria o semanal de un estudiante.</p>
-    </div>
-      <div class="col">
-        <h2>Recomendaciones:</h2>
-            <ul>
-                <li>Busca la hora adecuada.</li>
-                <li>Márcate un objetivo.</li>
-                <li>Enfócate en lo que haces.</li>
-                <li>Llévate tu libro allá donde vayas.</li>
-
-            </ul>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col-md-4 text-center"> 
+                <img src="{% static '/habitosdelectura.png' %}" alt=""class="img-fluid rounded" alt="Imagen de Hábito de Lectura" style="max-width: 100%; height: auto;">
+                <h2>Hábitos de lectura</h2>
+                <p>El hábito de la lectura se refiere a la práctica regular y sistemática de leer libros u otros tipos de textos escritos como parte de la rutina diaria o semanal de un estudiante.</p>
+            </div>
+            <div class="col-md-4 text-center"> 
+                <img src="{% static '/lector3.png' %}" alt="" class="img-fluid rounded" alt="Imagen de Ambiente de Lectura" style="max-width: 100%; height: auto;">
+                <h2>Ambiente para leer</h2>
+                <p>El ambiente de lectura es crucial para fomentar el hábito. Un espacio tranquilo, bien iluminado y cómodo puede hacer que la lectura sea más placentera.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{% static '/recomendaciones.png' %}" class="img-fluid rounded" alt="Imagen de Recomendaciones de Lectura" style="max-width: 100%; height: auto;">
+                <h2>Recomendaciones:</h2>
+                <ul>
+                    <li>Busca la hora adecuada.</li>
+                    <li>Márcate un objetivo.</li>
+                    <li>Enfócate en lo que haces.</li>
+                    <li>Llévate tu libro allá donde vayas.</li>
+                </ul>
+            </div>
+        </div>
         <hr>
-  </div>
+    </div>
 </main>
   <footer class="container">
     <p>Sistema Biblioteca 2024</p>
