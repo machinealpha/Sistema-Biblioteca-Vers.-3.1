@@ -18,6 +18,8 @@ from .forms import UserRegistrationForm
 from django.contrib.auth import views as auth_views
 from django.views.generic.edit import FormView
 from .forms import ConfirmacionPrestamoForm
+from django.contrib.auth import login
+from django.urls import reverse_lazy
 
 
 
@@ -74,6 +76,7 @@ def prestamo_libro(request, libro_id):
 
     if request.method == 'POST':
         if libro.cantidad_disponible > 0:  # <-- If statement starts here
+            lector = request.user.lector  # Obtener el objeto Lector relacionado
             prestamo = Prestamo(
                 libro=libro,
                 lector=request.user,
@@ -91,8 +94,8 @@ def prestamo_libro(request, libro_id):
     
 @login_required
 def mochila(request):
-    if hasattr(request.user, 'lector'):  # Check if user is Lector
-        prestamos = Prestamo.objects.filter(lector=request.user.lector, devuelto=False)
+    if request.user.is_authenticated:
+        prestamos = Prestamo.objects.filter(lector=request.user, devuelto=False)
         return render(request, 'mochila.html', {'prestamos': prestamos})
     else:
         return render(request, 'mochila.html', {'error': 'Solo los lectores pueden ver la mochila.'})
@@ -168,6 +171,8 @@ def registrar_devolucion(request):
     prestamos = Prestamo.objects.filter(devuelto=False)
     return render(request, 'registrar_devolucion.html', {'prestamos': prestamos})
 
+
+
 def detalle_libro(request, libro_id):
     libro = get_object_or_404(Libro, pk=libro_id)
     return render(request, 'detalle_libro.html', {'libro': libro})
@@ -176,16 +181,20 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.is_active = True  # Activar al usuario (si tienes un campo is_active)
+            user.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'¡Tu cuenta ha sido creada! Ahora puedes iniciar sesión.')
-            return redirect('login')  # Redirige al inicio de sesión después de registrarse
+            return redirect('login')  
     else:
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
 
+
 def login_view(request):
-    return auth_views.LoginView.as_view(template_name='login.html')(request)
+    return auth_views.LoginView.as_view(template_name='login.html', success_url=reverse_lazy('mochila'))(request)
 
 
 class ConfirmacionPrestamoView(FormView):

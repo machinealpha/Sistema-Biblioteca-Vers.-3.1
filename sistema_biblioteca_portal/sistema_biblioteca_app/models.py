@@ -7,6 +7,7 @@ class Lector(models.Model):  # Cambiamos el nombre a "Lector" (singular)
     curso = models.CharField(max_length=200, blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)  # Opcional
     activo = models.BooleanField(default=True)  # Cambiamos 'active' por 'activo'
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.matricula} - {self.nombre}"  # Representación más informativa
