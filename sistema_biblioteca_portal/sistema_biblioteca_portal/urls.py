@@ -19,9 +19,11 @@ from django.urls import path, include
 from sistema_biblioteca_app.views import home, save_usuario, save_lector, lectores_tab, reservaciones, libros_disponibles 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
     path('', include('sistema_biblioteca_app.urls')),
     path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
