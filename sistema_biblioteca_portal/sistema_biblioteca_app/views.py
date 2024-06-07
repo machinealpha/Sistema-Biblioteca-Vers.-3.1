@@ -204,14 +204,14 @@ class ConfirmacionPrestamoView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        libro_id = self.kwargs['libro_id']  # Obtén el libro_id de los kwargs
-        context['libro'] = get_object_or_404(Libro, pk=libro_id)
+        context['libro'] = get_object_or_404(Libro, pk=self.kwargs['libro_id'])
         return context
 
     def form_valid(self, form):
-        libro_id = self.kwargs['libro_id']
-        libro = get_object_or_404(Libro, pk=libro_id)
-
+        # No es necesario crear un nuevo préstamo aquí
+        messages.success(self.request, 'Préstamo confirmado exitosamente.')
+        return super().form_valid(form)  # Redirige a la página de libros
+    
         if libro.cantidad_disponible > 0:
             prestamo = Prestamo(
                 libro=libro,
