@@ -26,7 +26,6 @@
                 <th>Autor</th>
                 <th>Género</th>
                 <th>Disponibles</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -43,13 +42,6 @@
                     <td>{{ libro.autor }}</td>
                     <td>{{ libro.genero }}</td>
                     <td>{{ libro.cantidad_disponible }}</td>
-                    <td>
-                        {% if libro.cantidad_disponible > 0 %}
-                            <a href="{% url 'prestamo_libro' libro.id %}" class="btn btn-primary btn-sm">Solicitar Préstamo</a>
-                        {% else %}
-                            <p class="text-danger">No disponible</p>
-                        {% endif %}
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>

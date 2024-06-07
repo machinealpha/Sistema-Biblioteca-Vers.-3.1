@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block main_content %}
+<div class="container mt-4">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <img src="{% static 'Audiolibros_infantiles.jpg' %}" class="img-fluid" alt="Imagen de Audiocuentos Infantiles">
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12 text-center">
+            <h1 class="text-center mb-4">Audiocuentos Infantiles</h1>
+        </div>
+    </div>
+
+
+    <div class="row">
+        {% for video in videos %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="{{ video.url }}" allowfullscreen></iframe>
+                        </div>
+                        <h5 class="card-title mt-2">{{ video.titulo }}</h5>
+                        <p class="card-text">{{ video.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

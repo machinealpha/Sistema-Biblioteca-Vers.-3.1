@@ -71,27 +71,26 @@ def libros_disponibles(request):
 
     return render(request, 'libros.html', {'libros': libros, 'titulo': titulo, 'autor': autor, 'genero': genero})
 
+@login_required
 def prestamo_libro(request, libro_id):
     libro = get_object_or_404(Libro, pk=libro_id)
-    usuario = request.user
 
     if request.method == 'POST':
-        if libro.cantidad_disponible > 0:  # <-- If statement starts here
-            lector = request.user.lector  # Obtener el objeto Lector relacionado
-            prestamo = Prestamo(
+        if libro.cantidad_disponible > 0:
+            prestamo = Prestamo.objects.create(
                 libro=libro,
                 lector=request.user,
                 fecha_prestamo=datetime.now(),
                 fecha_devolucion=datetime.now() + timedelta(days=7)
             )
-            prestamo.save()
             libro.cantidad_disponible -= 1
             libro.save()
-            return redirect('confirmacion_prestamo', libro_id=libro_id)  # Pasa el libro_id a la redirección
+            return redirect('confirmacion_prestamo', libro_id=libro_id)
         else:
-            return render(request, 'libros.html', {'libros': Libro.objects.all(), 'error': 'Libro no disponible'})
-    else:
-        return render(request, 'prestamo_libro.html', {'libro': libro})
+            messages.error(request, 'Libro no disponible.')
+            return redirect('libros')  # Redirigir a la lista de libros si no está disponible
+
+    return render(request, 'prestamo_libro.html', {'libro': libro})
     
 @login_required
 def mochila(request):
@@ -229,3 +228,16 @@ class ConfirmacionPrestamoView(FormView):
             messages.error(self.request, 'El libro ya no está disponible.')
 
         return super().form_valid(form)
+    
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
+
+def videos(request):
+    videos = [
+        {'titulo': 'La Cigarra y la Hormiga', 'url': 'https://youtu.be/erImv5PJqnA?si=277dw2tnTWP3CW-S', 'descripcion': 'La Cigarra y la Hormiga'},
+        {'titulo': 'La Liebre y la Tortuga', 'url': 'https://youtu.be/js1lKmt-Mag?si=8tCDZZHASIO74Xf4', 'descripcion': 'La Liebre y la Tortuga.'},
+        {'titulo': 'El León y el Ratón', 'url': 'https://youtu.be/F3ztPMWSqmU?si=jWhethNo2er8Knu7', 'descripcion': 'El León y el Ratón'},
+        # ... más videos ...
+    ]
+    return render(request, 'videos.html', {'videos': videos})

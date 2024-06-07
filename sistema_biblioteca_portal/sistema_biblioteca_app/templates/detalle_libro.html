@@ -21,7 +21,10 @@
             <p><strong>Disponibles:</strong> {{ libro.cantidad_disponible }}</p>
 
             {% if libro.cantidad_disponible > 0 %}
-                <a href="{% url 'prestamo_libro' libro.id %}" class="btn btn-primary">Solicitar Préstamo</a>
+                <form method="POST" action="{% url 'prestamo_libro' libro.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Solicitar Préstamo</button>
+                </form>
             {% else %}
                 <p class="text-danger">No disponible</p>
             {% endif %}

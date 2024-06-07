@@ -5,10 +5,17 @@
 
 <p>¿Estás seguro de que deseas solicitar el préstamo del libro "{{ libro.titulo }}"?</p>
 
-<form method="POST">
+<form method="POST" id="prestamo-form">
     {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Sí, solicitar préstamo</button>
+    <button type="submit" class="btn btn-primary" id="submit-button">Sí, solicitar préstamo</button>
 </form>
 
 <a href="{% url 'libros' %}" class="btn btn-secondary">Cancelar</a>
+
+<script>
+document.getElementById('prestamo-form').addEventListener('submit', function() {
+    document.getElementById('submit-button').disabled = true;
+});
+</script>
+
 {% endblock %}

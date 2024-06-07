@@ -4,7 +4,7 @@ from django.urls import path, include  # Importa include para agrupar URLs
 from sistema_biblioteca_app.views import (
     home, save_usuario, save_lector, lectores_tab, 
     reservaciones, libros_disponibles, prestamo_libro, 
-    mochila, devoluciones, detalle_libro, register, 
+    mochila, devoluciones, detalle_libro, register, profile, videos, 
     ConfirmacionPrestamoView
 )
 from django.contrib.auth import views as auth_views  # Importa las vistas de autenticación de Django
@@ -33,6 +33,8 @@ urlpatterns = [
     ])),
 
     path('prestamo/<int:libro_id>/confirmar/', ConfirmacionPrestamoView.as_view(), name='confirmacion_prestamo'),
+    path('accounts/profile/', profile, name='profile'),
+    path('videos/', videos, name='videos'),
 ]
 
 if settings.DEBUG:
