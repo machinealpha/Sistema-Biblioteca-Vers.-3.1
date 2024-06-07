@@ -4,50 +4,10 @@
 
 {% block main_content %}
 
-<div class="container-flex text-center justify-content-center align-items-center" style="padding-top: 10px; padding-bottom: 20px; margin-top: 10px;">
-    <div class="row justify-content-center align-middle" style="margin-top: 10px;height:60px;">
-        <div class="col-md-4 text-light" style="background-color:#f85b00;">
-            <h4 style="margin-top:15px">REGISTRAR NUEVO LECTOR</h4>
-        </div>
-        <div class="col-md-8">
-            <h4>Buscar lectores</h4>
-        </div>
-    </div>
+<div class="container mt-4"> 
     <div class="row">
-        <div class="col-md-4">
-            <div class="container" style="overflow-y: auto; height: 600px;background: #bbbdbd;">
-                <form class="d-flex" action="{% url 'save_lector' %}" method="POST">  
-                    {% csrf_token %}
-                    <table class="table" style="margin-top: 20px;">
-                        <tr>
-                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Matricula : </td>
-                            <td><input type="text" class="form-control" name="matricula"></td> 
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Nombre : </td>  <td><input type="text" class="form-control" name="nombre"></td> </tr>
-                        <tr>
-                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Curso : </td>
-                            <td><input type="text" class="form-control" name="curso"></td> 
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;vertical-align: middle; padding-left: 15px;">Observaciones : </td>
-                            <td><textarea class="form-control" name="observaciones"></textarea></td> 
-                        </tr>
-
-                        <tr>
-                            <td colspan="2"><button class="btn btn-primary" type="submit">Guardar</button></td>
-                        </tr>
-                    </table>
-                </form>
-                <ul style="text-align: left;vertical-align:middle; padding-left: 15px ;">
-                    <li><small>Los lectores no se deben registrar multiples veces</small></li>
-                    <li><small>Los lectores duplicados seran desactivados</small></li>
-                    <li><small>La información ingresada debe ser correcta</small></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-md-8">
+        <div class="col-md-12"> 
+            <h4>Buscar lectores</h4>
             <div class="row">
                 <nav class="navbar bg-body-light">
                     <div class="container-fluid justify-content-center align-items-center">
@@ -96,3 +56,4 @@
 </div>
 
 {% endblock %}
+

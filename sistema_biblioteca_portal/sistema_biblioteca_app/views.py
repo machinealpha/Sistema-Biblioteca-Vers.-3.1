@@ -20,6 +20,7 @@ from django.views.generic.edit import FormView
 from .forms import ConfirmacionPrestamoForm
 from django.contrib.auth import login
 from django.urls import reverse_lazy
+from .models import User
 
 
 
@@ -94,11 +95,10 @@ def prestamo_libro(request, libro_id):
     
 @login_required
 def mochila(request):
-    if request.user.is_authenticated:
-        prestamos = Prestamo.objects.filter(lector=request.user, devuelto=False)
-        return render(request, 'mochila.html', {'prestamos': prestamos})
-    else:
-        return render(request, 'mochila.html', {'error': 'Solo los lectores pueden ver la mochila.'})
+    prestamos = Prestamo.objects.filter(lector=request.user, devuelto=False).select_related('libro')  # Optimizar la consulta
+    return render(request, 'mochila.html', {'prestamos': prestamos})
+    ##else:
+        ##return render(request, 'mochila.html', {'error': 'Solo los lectores pueden ver la mochila.'})
     
 def devoluciones(request):
     if request.method == 'POST':
@@ -181,7 +181,8 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
+            user = form.save()
+            Lector.objects.create(usuario=user, nombre=user.username)
             user.set_password(form.cleaned_data['password'])
             user.is_active = True  # Activar al usuario (si tienes un campo is_active)
             user.save()

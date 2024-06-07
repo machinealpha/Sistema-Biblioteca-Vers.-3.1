@@ -1,10 +1,33 @@
 {% extends "index.html" %}
+{% load static %}
 
 {% block main_content %}
 <h2>Mochila</h2>
 
+<div id='calendar'></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: [
+        {% for prestamo in prestamos %}
+          {
+            title: '{{ prestamo.libro.titulo }}',
+            start: '{{ prestamo.fecha_prestamo }}',
+            end: '{{ prestamo.fecha_devolucion }}', 
+          },
+        {% endfor %}
+      ]
+    });
+    calendar.render();
+  });
+</script>
+
+
 {% if user.is_authenticated %}
-    {% if user.prestamos.all %}
+    {% if prestamos %}
         <table class="table">
             <thead>
                 <tr>
@@ -15,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for prestamo in user.prestamos.all %}
+                {% for prestamo in prestamos %}
                     <tr>
                         <td>{{ prestamo.libro.titulo }}</td>
                         <td>{{ prestamo.libro.autor }}</td>
