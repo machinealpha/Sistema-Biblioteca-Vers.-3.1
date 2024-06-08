@@ -4,7 +4,10 @@
 
 {% block main_content %}
 
-<div class="container mt-4">  
+<div class="container mt-4">
+    <div class="row mb-4"> <div class="col-md-12"> <img src="{% static 'arribalibros.jpg' %}" class="img-fluid" alt="Imagen de Libros Disponibles"> </div>
+    </div>
+    
     <h2>Libros Disponibles</h2>
 
     <form class="d-flex mb-3" role="search" method="GET" action="{% url 'libros' %}">
