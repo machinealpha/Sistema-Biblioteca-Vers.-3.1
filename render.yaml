@@ -1,0 +1,11 @@
+YAML
+services:
+- type: web
+  name: biblioteca-escolar
+  env: python  # Especifica el entorno de ejecución (Python)
+  buildCommand: pip install -r requirements.txt  # Comando para instalar dependencias
+  startCommand: gunicorn sistema_biblioteca_portal.wsgi:application --bind 0.0.0.0:$PORT  # Comando para iniciar el servidor
+  envVars:
+    - key: DJANGO_SETTINGS_MODULE  # Variable de entorno para la configuración de Django
+      value: sistema_biblioteca_portal.settings
+  rootDir: ./c/Users/Usuario/Desktop/Sistema Biblioteca Vers. 3.1/sistema_biblioteca_portal
